@@ -7,26 +7,32 @@
 
 :root
 {
-	/* Colors — tweak these to taste */
-	--color-bg:        #f6f8fa;   /* page background (light gray) */
-	--color-card:      #ffffff;   /* card background (white) */
-	--color-border:    #d0d7de;   /* subtle borders */
-	--color-text:      #1f2328;   /* main text */
-	--color-text-mute: #656d76;   /* muted/secondary text */
-	--color-accent:    #0969da;   /* links, hover, active */
-	--color-accent-hover: #0550ae;
+	/* Colors — dark theme tuned for the blue + gold wallpaper */
+	--color-bg:          #0a1a2f;   /* deep navy fallback */
+	--color-panel:       rgba(8, 20, 38, 0.75);   /* translucent dark panel for sidebar */
+	--color-card:        #0d1f38;   /* very dark blue for cards */
+	--color-card-border: rgba(120, 160, 220, 0.18); /* subtle blue-tinted border */
+	--color-border:      rgba(120, 160, 220, 0.18);
+	--color-text:        #f5f7fa;   /* off-white main text */
+	--color-text-mute:   #9fb0c8;   /* muted blue-gray secondary text */
+	--color-accent:      #d4af37;   /* gold — matches wallpaper */
+	--color-accent-hover:#f0c94a;   /* brighter gold */
 
 	/* Spacing & radius */
 	--radius:      12px;
 	--gap:         24px;
-	--sidebar-w:   300px;
+	--sidebar-w:   320px;   /* slightly wider to fit bigger avatar + panel padding */
 }
-
 
 body
 {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
 	background-color: var(--color-bg);
+	background-image: url("assets/Background.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 	color: var(--color-text);
 	line-height: 1.5;
 	min-height: 100vh;
@@ -40,6 +46,7 @@ a
 
 a:hover
 {
+	color: var(--color-accent-hover);
 	text-decoration: underline;
 }
 
@@ -53,30 +60,40 @@ a:hover
 	padding: var(--gap);
 }
 
-
+/* ================================
+   SIDEBAR (with dark panel)
+   ================================ */
 .sidebar
 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	position: sticky;
 	gap: 10px;
 	align-self: start;
-	top: 88px ;
+	top: 88px;
+
+	/* NEW: the vertical panel */
+	background-color: var(--color-panel);
+	backdrop-filter: blur(8px);                    /* frosted glass effect */
+	-webkit-backdrop-filter: blur(8px);            /* Safari support */
+	border: 1px solid var(--color-card-border);
+	border-radius: var(--radius);
+	padding: 28px 20px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);    /* lift off wallpaper */
 }
 
-/* --- Avatar (using the wrapper approach) --- */
+/* --- Avatar --- */
 .avatar-wrapper
 {
-	width: 160px;
-	height: 160px;
+	width: 200px;                                  /* ← BIGGER: was 160px */
+	height: 200px;
 	border-radius: 50%;
 	overflow: hidden;
-	background-color: #e5e7eb;   /* fallback if image is transparent */
-	border: 3px solid var(--color-card);
-	box-shadow: 0 0 0 1px var(--color-border);
-	margin-bottom: 12px;
+	background-color: #e5e7eb;
+	border: 3px solid var(--color-accent);         /* ← GOLD ring instead of white */
+	box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15), 0 8px 24px rgba(0, 0, 0, 0.5);
+	margin-bottom: 16px;
 }
 
 .avatar-wrapper img
@@ -87,28 +104,31 @@ a:hover
 	display: block;
 }
 
-/* --- Text --- */
+/* --- Sidebar text --- */
 .sidebar__job-title
 {
-	font-size: 14px;
-	font-weight: 500;
-	color: var(--color-accent);   /* colored to stand out */
-	letter-spacing: 0.02em;
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--color-accent);         /* gold job title */
+	letter-spacing: 0.04em;
 	text-transform: uppercase;
+	text-align: center;
 }
 
 .sidebar__name
 {
-	font-size: 26px;
+	font-size: 28px;                    /* slightly bigger since avatar is bigger */
 	font-weight: 700;
 	line-height: 1.2;
 	color: var(--color-text);
+	text-align: center;
 }
 
 .sidebar__username
 {
 	font-size: 14px;
 	color: var(--color-text-mute);
+	text-align: center;
 }
 
 .sidebar__bio
@@ -118,14 +138,15 @@ a:hover
 	margin-top: 8px;
 	line-height: 1.6;
 	max-width: 240px;
+	text-align: center;
 }
 
 /* --- Social icons --- */
 .sidebar__socials
 {
 	display: flex;
-	gap: 14px;
-	margin-top: 16px;
+	gap: 16px;
+	margin-top: 20px;
 	list-style: none;
 }
 
@@ -140,7 +161,7 @@ a:hover
 
 .sidebar__socials a:hover
 {
-	color: var(--color-accent);
+	color: var(--color-accent);         /* gold on hover */
 	transform: translateY(-2px);
 }
 
@@ -151,30 +172,67 @@ a:hover
 }
 
 /* ================================
-   5. CONTENT (cards)
+   CONTENT (dark cards)
    ================================ */
 .content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap);
 }
 
 .card {
-  background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 24px;
+	background-color: var(--color-card);
+	border: 1px solid var(--color-card-border);
+	border-radius: var(--radius);
+	padding: 24px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+	color: var(--color-text);            /* ← FIX: light text on dark card */
 }
 
 .card__title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--color-border);
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 16px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--color-card-border);
+	color: var(--color-text);
 }
 
 .card__body {
-  font-size: 14px;
-  color: var(--color-text);
+	font-size: 14px;
+	color: var(--color-text);
+	line-height: 1.6;
+}
+
+/* ================================
+   RESPONSIVE (mobile)
+   ================================ */
+@media (max-width: 768px) {
+	.layout {
+		grid-template-columns: 1fr;
+		padding: 16px;
+		gap: 16px;
+	}
+
+	.sidebar {
+		position: static;
+		padding: 24px 16px;
+	}
+
+	.avatar-wrapper {
+		width: 140px;                    /* ← was 120px */
+		height: 140px;
+	}
+
+	.sidebar__name {
+		font-size: 24px;
+	}
+
+	.sidebar__bio {
+		max-width: 100%;
+	}
+
+	.card {
+		padding: 16px;
+	}
 }
